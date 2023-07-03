@@ -54,6 +54,7 @@ class TrackingService : LifecycleService() {
 
 
     var isFirstRun = true
+    var serviceKilled = false
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
@@ -89,6 +90,15 @@ class TrackingService : LifecycleService() {
         timeRunInMillis.postValue(0L)
     }
 
+    private fun killService(){
+        serviceKilled = true
+        isFirstRun = true
+        pauseService()
+        postInititalValues()
+        stopForeground(true)
+        stopSelf()
+    }
+
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         intent?.let {
             when (it.action) {
@@ -108,6 +118,7 @@ class TrackingService : LifecycleService() {
                 }
 
                 ACTION_STOP_SERVICE -> {
+                    killService()
                     Timber.d("Stopped service")
 
                 }
@@ -155,12 +166,12 @@ class TrackingService : LifecycleService() {
             val pauseIntent = Intent(this,TrackingService::class.java).apply{
                 action = ACTION_PAUSE_SERVICE
             }
-            PendingIntent.getService(this,1,pauseIntent,FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this,1,pauseIntent,PendingIntent.FLAG_IMMUTABLE )
         }else{
             val resumeIntent = Intent(this,TrackingService::class.java).apply{
                 action = ACTION_START_OR_RESUME_SERVICE
             }
-            PendingIntent.getService(this,1,resumeIntent, FLAG_UPDATE_CURRENT)
+            PendingIntent.getService(this,1,resumeIntent, PendingIntent.FLAG_IMMUTABLE)
         }
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -170,9 +181,11 @@ class TrackingService : LifecycleService() {
             isAccessible = true
             set(currentNotificationBuilder,ArrayList<NotificationCompat.Action>())
         }
-        currentNotificationBuilder = baseNotificationBuilder
-            .addAction(R.drawable.ic_pause,notificationActionText,pendingIntent)
-        notificationManager.notify(NOTIFICATION_ID,currentNotificationBuilder.build())
+        if(!serviceKilled) {
+            currentNotificationBuilder = baseNotificationBuilder
+                .addAction(R.drawable.ic_pause, notificationActionText, pendingIntent)
+            notificationManager.notify(NOTIFICATION_ID, currentNotificationBuilder.build())
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -238,9 +251,12 @@ class TrackingService : LifecycleService() {
         startForeground(NOTIFICATION_ID,baseNotificationBuilder.build())
         Timber.d("notificationBuilderWorking")
         timeRunInSeconds.observe(this, Observer {
-            val notification = currentNotificationBuilder
-                .setContentText(TrackingUtility.getFormattedStopWatchTime(it*1000L))
-            notificationManager.notify(NOTIFICATION_ID,notification.build())
+            if(!serviceKilled){
+                val notification = currentNotificationBuilder
+                    .setContentText(TrackingUtility.getFormattedStopWatchTime(it*1000L))
+                notificationManager.notify(NOTIFICATION_ID,notification.build())
+            }
+
         })
     }
     //low jer se svaku sekundu mijenja notifikacija i ne zelimo da mobitel zvoni svaku sekundu

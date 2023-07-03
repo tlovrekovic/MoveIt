@@ -7,7 +7,7 @@ import javax.inject.Inject
 class MainRepository @Inject constructor(
     val runDao: RunDAO
 ){
-    fun insertRun(run: Run)= runDao.insertRun(run)
+    fun insertRun(run: Run) = runDao.insertRun(run)
 
     fun deleteRun(run: Run)= runDao.deleteRun(run)
 
