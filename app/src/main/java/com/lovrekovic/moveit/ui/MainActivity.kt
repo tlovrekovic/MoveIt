@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
 
+
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.settingsFragment, R.id.statisticsFragment, R.id.runFragment ->

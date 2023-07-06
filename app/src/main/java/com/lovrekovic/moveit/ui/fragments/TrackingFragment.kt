@@ -50,6 +50,7 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
     private var pathPoints = mutableListOf<Polyline>()
     private var map: GoogleMap? = null
     private var currentTimeMillis = 0L
+    private lateinit var tvTimer : TextView
 
     private var menu: Menu? = null
 
@@ -65,6 +66,11 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        //keširanje mape
+        mapView?.onSaveInstanceState(outState)
+    }
 
 
 
@@ -100,7 +106,7 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         })
 
         TrackingService.timeRunInMillis.observe(viewLifecycleOwner, Observer {
-            val tvTimer : TextView = requireView().findViewById(R.id.tvTimer)
+            tvTimer = requireView().findViewById(R.id.tvTimer)
             currentTimeMillis = it
             val formattedTime = TrackingUtility.getFormattedStopWatchTime(currentTimeMillis,true)
             tvTimer.text = formattedTime
@@ -155,6 +161,7 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
     }
 
     private fun stopRun(){
+        tvTimer.text = "00:00:00:00"
         sendCommandToService(ACTION_STOP_SERVICE)
         findNavController().navigate(R.id.action_trackingFragment_to_runFragment)
     }
@@ -163,10 +170,10 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         val btnToggleRun = view?.findViewById<Button>(R.id.btnToggleRun)
         val btnFinishRun = view?.findViewById<Button>(R.id.btnFinishRun)
         this.isTracking=isTracking
-        if(!isTracking){
+        if(!isTracking && currentTimeMillis >0L){
             btnToggleRun?.text="Start"
             btnFinishRun?.visibility = View.VISIBLE
-        }else{
+        }else if(isTracking){
             btnToggleRun?.text="Stop"
             menu?.getItem(0)?.isVisible = true
             btnFinishRun?.visibility = View.VISIBLE
@@ -273,11 +280,7 @@ class TrackingFragment: Fragment(R.layout.fragment_tracking) {
         mapView?.onLowMemory()
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        //keširanje mape
-        mapView?.onSaveInstanceState(outState)
-    }
+
 
 
 }

@@ -71,6 +71,13 @@ class TrackingService : LifecycleService() {
         val pathPoints = MutableLiveData<Polylines>()
     }
 
+    private fun postInititalValues(){
+        isTracking.postValue(false)
+        pathPoints.postValue(mutableListOf())
+        timeRunInSeconds.postValue(0L)
+        timeRunInMillis.postValue(0L)
+    }
+
     override fun onCreate() {
         super.onCreate()
         currentNotificationBuilder = baseNotificationBuilder
@@ -83,12 +90,7 @@ class TrackingService : LifecycleService() {
         })
     }
 
-    private fun postInititalValues(){
-        isTracking.postValue(false)
-        pathPoints.postValue(mutableListOf())
-        timeRunInSeconds.postValue(0L)
-        timeRunInMillis.postValue(0L)
-    }
+
 
     private fun killService(){
         serviceKilled = true

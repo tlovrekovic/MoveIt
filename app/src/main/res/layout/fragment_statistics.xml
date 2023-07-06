@@ -13,9 +13,10 @@
         android:text="Total Distance"
         app:layout_constraintBottom_toTopOf="@+id/tvAverageSpeedInfo"
         app:layout_constraintEnd_toEndOf="@+id/tvTotalDistance"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="@+id/tvTotalDistance"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.571" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTotalDistance"
@@ -25,7 +26,7 @@
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTotalDistanceInfo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTotalTimeInfo"
@@ -34,18 +35,21 @@
         android:text="Total Time"
         app:layout_constraintBottom_toTopOf="@+id/tvTotalCaloriesInfo"
         app:layout_constraintEnd_toEndOf="@+id/tvTotalTime"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="@+id/tvTotalTime"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.361" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTotalTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:text="00:00:00"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTotalTimeInfo"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -55,9 +59,10 @@
         android:text="Total Calories Burned"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/tvTotalCalories"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="@+id/tvTotalCalories"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvTotalCalories"
@@ -66,7 +71,7 @@
         android:text="0kcal"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/tvTotalCaloriesInfo"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -76,9 +81,10 @@
         android:text="Average Speed"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="@+id/tvAverageSpeed"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.409"
         app:layout_constraintStart_toStartOf="@+id/tvAverageSpeed"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.866" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvAverageSpeed"
@@ -88,14 +94,15 @@
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@+id/tvAverageSpeedInfo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/guideline2" />
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="208dp" />
+        app:layout_constraintGuide_end="180dp" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
